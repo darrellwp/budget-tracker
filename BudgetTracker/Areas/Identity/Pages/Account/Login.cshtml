@@ -1,0 +1,50 @@
+﻿@page
+@model LoginModel
+
+<div class="grid-center">
+    <div class="card" style="max-width:560px">
+        <div class="card-body">
+            <h2 class="text-center">Welcome back to </h2>
+            <h1 class="text-center mb-5"><span class="text-primary">Penny Map</span></h1>
+            <form id="account" method="post">
+                @{
+                    if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            @Model.ErrorMessage
+                        </div>
+                    }
+                }
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input asp-for="UserLogin.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                            <label asp-for="UserLogin.Email" class="form-label">Email</label>
+                            <span asp-validation-for="UserLogin.Email" class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input asp-for="UserLogin.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                            <label asp-for="UserLogin.Password" class="form-label">Password</label>
+                            <span asp-validation-for="UserLogin.Password" class="invalid-feedback"></span>
+                        </div>
+                        <div class="checkbox mt-2">
+                            <label asp-for="UserLogin.RememberMe" class="form-label">
+                                <input class="form-check-input" asp-for="UserLogin.RememberMe" />
+                                @Html.DisplayNameFor(m => m.UserLogin.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    </div>
+                    <div class="col-12 d-flex justify-content-between">
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Need to register?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

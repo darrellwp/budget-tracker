@@ -1,0 +1,13 @@
+﻿@page
+@model BudgetTracker.Areas.User.Pages.Transactions.CreateModel
+@{
+    ViewData["Title"] = "Create Transaction";
+}
+
+<!--Wrapper needed for since form will not accept scoped css-->
+<div class="card w-fit-content mx-auto">
+    <div class="card-body">
+        <h4 class="mb-4">Create Transaction</h4>
+        <partial name="_TransactionForm" model="@Model.Transaction" />
+    </div>
+</div>

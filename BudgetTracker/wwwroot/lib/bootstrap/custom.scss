@@ -1,0 +1,29 @@
+﻿
+@import "../bootstrap/scss/functions";
+
+// Include all default overries here
+$primary: #44db76;
+$danger: #db4463;
+$body-color-dark: #fff;
+$body-bg-dark: #0f0d0d;
+$card-bg: #262424;
+
+$default-radius: .75rem;
+$border-radius: .75rem;
+$border-radius-sm: .375rem !default;
+$border-radius-lg: .95rem !default;
+$border-radius-pill: 50rem !default;
+
+// Buttons
+$btn-border-radius-sm: $default-radius;
+$btn-border-radius: $default-radius;
+$btn-border-radius-lg: $default-radius;
+
+// Containers
+$card-border-radius: $default-radius;
+$modal-content-border-radius : $default-radius;
+
+@import "../bootstrap/scss/bootstrap.scss";
+
+
+

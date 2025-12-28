@@ -1,0 +1,96 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+@{
+    if (Model.RegistrationComplete)
+    {
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h1 class="mb-4">Registration Complete</h1>
+                    <p>Please check your email to confirm your account.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row gy-5">
+            <div class="col-12 col-lg-6 col-md-offset-2">
+                <section class="text-center">
+                    <h1 class="mb-0">Welcome to </h1>
+                    <h1 style="font-size:80px" class="text-primary fw-bold">Penny Map</h1>
+                    <span class="d-block">Let's get started with mapping your budget.</span>
+                    <div class="text-center mt-4">
+                        <svg class="text-primary" xmlns="http://www.w3.org/2000/svg" width="250" height="250" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z" />
+                            <path id="svg-pin" fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
+                        </svg>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="registerForm" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                            <div class="row gy-3">
+                                <div class="col-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Registration.FirstName" class="form-control" autocomplete="given-name" aria-required="true" placeholder="First Name" />
+                                        <label asp-for="Registration.FirstName">First Name</label>
+                                        <span asp-validation-for="Registration.FirstName" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Registration.LastName" class="form-control" autocomplete="family-name" aria-required="true" placeholder="Last Name" />
+                                        <label asp-for="Registration.LastName">Last Name</label>
+                                        <span asp-validation-for="Registration.LastName" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class=col-12>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Registration.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                                        <label asp-for="Registration.Email">Email</label>
+                                        <span asp-validation-for="Registration.Email" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Registration.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                                        <label asp-for="Registration.Password">Password</label>
+                                        <span asp-validation-for="Registration.Password" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Registration.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                                        <label asp-for="Registration.ConfirmPassword">Confirm Password</label>
+                                        <span asp-validation-for="Registration.ConfirmPassword" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+} 
+
+
+@section Scripts {
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => document.getElementById('svg-pin').classList.add('show'));
+    </script>
+}

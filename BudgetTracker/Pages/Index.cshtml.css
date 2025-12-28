@@ -1,0 +1,66 @@
+﻿section.row {
+    align-items: center;
+    min-height: 100vh
+}
+
+#subscriptions {
+    display: grid;
+    gap: 2rem;
+    text-align: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+    justify-content: space-around;
+}
+
+#banner-block {
+    height: 165px;
+    font-size: 7rem;
+    width: fit-content;
+    margin: auto;
+    border-right: 2px solid white;
+    animation: cursor-mimic 1.5s cubic-bezier(0.95, -0.1, 0.12, 1.03) 1.5s infinite;
+}
+
+#banner-block #type-text:after {
+    content: '';
+    animation: typing 1.5s linear forwards;
+}
+
+@keyframes cursor-mimic {
+    from, to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: white;
+    }
+}
+
+@keyframes typing {
+    0% {
+        content: ''
+    }
+
+    16% {
+        content: 'B'
+    }
+
+    32% {
+        content: 'Bu'
+    }
+
+    48% {
+        content: 'Bud'
+    }
+
+    64% {
+        content: 'Budg'
+    }
+
+    80% {
+        content: 'Budge'
+    }
+
+    100% {
+        content: 'Budget'
+    }
+}

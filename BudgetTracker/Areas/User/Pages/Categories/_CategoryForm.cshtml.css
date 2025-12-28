@@ -1,0 +1,7 @@
+﻿#category-form-wrapper{
+    max-width: 700px;
+}
+
+#icon-options {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr))
+}

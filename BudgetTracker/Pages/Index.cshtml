@@ -1,0 +1,97 @@
+﻿@page
+@using BudgetTracker.Pages
+@model IndexModel
+@{
+}
+
+<section class="row">
+    <div class="col-12 text-center">
+        <div class="mx-auto fw-bold" style="font-size:4rem">
+            <span class="d-block">Start saving today by</span>
+            <span class="d-block" z=""><strong class="text-primary">Mapping</strong> your</span>
+            <div id="banner-block" class="text-primary mb-3 mb-4">
+                <div id="type-text"></div>
+            </div>
+        </div>
+        <div class="mt-3 mx-auto w-75">
+            Take control of your finances with our intuitive budgeting tool.
+            Our platform helps you stay organized, identify spending trends, and make informed financial decisions—all in a seamless, user-friendly experience
+        </div>
+        <a asp-area="Identity" asp-page="Register" class="btn btn-lg btn-primary mt-4">Register Now</a>
+    </div>
+</section>
+<!--Some random cards to fill in the page-->
+<section>
+    <p class="mb-2 text-center mx-auto fw-bold">We have subscription types to fit all of your needs!</p>
+    <p class="mb-5 text-center mx-auto">Just kidding, there are no subscriptions and I just wanted to make some cards so it looks like a page that sells stuff.</p>
+    <div id="subscriptions">
+        <div class="card">
+            <div class="card-body p-4">
+                <h4 class="mb-4 fw-normal">Free Tier</h4>
+                <h2 class="text-primary">$0</h2>
+                <small class="text-body-secondary d-block mb-3">per month</small>
+                <button type="button" class="btn btn-outline-primary" onclick="showToast('The perfect tier for everyone.');">Get Started</button>
+                <ul class="list-group text-center list-group-flush text-start mt-5 mb-3">
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Budget Categories</small>
+                        <span class="text-primary">10</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Transaction Per Month</small>
+                        <span class="text-primary">50</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Tracked Accounts</small>
+                        <span class="text-primary">3</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-4">
+                <h4 class="mb-4 fw-normal">Standard Tier</h4>
+                <h2 class="text-primary">$10</h2>
+                <small class="text-body-secondary d-block mb-3">per month</small>
+
+                <button type="button" class="btn btn-outline-primary" onclick="showToast('Understandable, standard tier.');">Get Started</button>
+                <ul class="list-group text-center list-group-flush text-start mt-5 mb-3">
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Budget Categories</small>
+                        <span class="text-primary">20</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Transaction Per Month</small>
+                        <span class="text-primary">100</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Tracked Accounts</small>
+                        <span class="text-primary">6</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-4">
+                <h4 class="mb-4 fw-normal">Premium Tier</h4>
+                <h2 class="text-primary">$20</h2>
+                <small class="text-body-secondary d-block mb-3">per month</small>
+
+                <button type="button" class="btn btn-outline-primary" onclick="showToast('Very fancy... premium tier!');">Get Started</button>
+                <ul class="list-group text-center list-group-flush text-start mt-5 mb-3">
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Budget Categories</small>
+                        <span class="text-primary">40</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Transaction Per Month</small>
+                        <span class="text-primary">400</span>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <small class="d-block">Tracked Accounts</small>
+                        <span class="text-primary">18</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

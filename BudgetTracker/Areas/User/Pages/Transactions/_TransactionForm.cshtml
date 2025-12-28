@@ -1,0 +1,99 @@
+﻿@model TransactionViewModel
+@using BudgetTracker.Models.Enumerations
+
+<div id="transaction-form-wrapper">
+    <form id="transaction-form" method="post">
+        <div class="row gy-4">
+            <div class="col-12">
+                <div class="btn-group w-100" aria-label="Pick a transaction type">
+                    <input type="radio" asp-for="TransactionType" class="btn-check" id="radio-expense" autocomplete="off" value="@TransactionType.Expense" checked>
+                    <label class="btn btn-outline-primary" for="radio-expense">Expense</label>
+                    <input type="radio" asp-for="TransactionType" class="btn-check" id="radio-income" autocomplete="off" value="@TransactionType.Income">
+                    <label class="btn btn-outline-primary" for="radio-income">Income</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <input asp-for="Description" type="text" id="textDescription" class="form-control" placeholder="Transaction for..." autocomplete="off" />
+                    <label asp-for="Description">Transaction for...</label>
+                    <span asp-validation-for="Description" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <input asp-for="PlaceOfPurchase" type="text" id="textPlaceOfPurchase" class="form-control" placeholder="Place of purchase" list="purchase-location-list" autocomplete="off" />
+                    <label asp-for="PlaceOfPurchase">Place of purchase</label>
+                    <span asp-validation-for="PlaceOfPurchase" class="invalid-feedback"></span>
+                </div>
+                @if(Model.PurchaseLocations != null)
+                {
+                    <datalist id="purchase-location-list">
+
+                        @foreach (var location in Model.PurchaseLocations)
+                        {
+                            <option value="@location"></option>
+                        }
+                    </datalist>
+                }
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <select asp-for="CategoryId" asp-items="Model.CategoryOptions" class="form-select">
+                        <option value="">N/A</option>
+                    </select>
+                    <label asp-for="CategoryId">Category</label>
+                    <span asp-validation-for="CategoryId" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-floating">
+                    <input asp-for="AmountDisplay" type="text" id="textAmount" class="form-control" placeholder="Amount" value="@Model.AmountDisplay" />
+                    <label asp-for="AmountDisplay">Amount</label>
+                    <span asp-validation-for="AmountDisplay" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-floating">
+                    <input asp-for="DateOccurred" type="date" id="textDate" class="form-control" placeholder="Date" />
+                    <label asp-for="DateOccurred">Date</label>
+                    <span asp-validation-for="DateOccurred" class="invalid-feedback"></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex gap-4 mt-5">
+            @if (Model == null)
+            {
+                <button type="submit" class="btn btn-outline-primary w-50">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    <span>Create</span>
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-outline-primary w-50">
+                    <i class="bi bi-floppy me-1"></i>
+                    <span>Save</span>
+                </button>
+            }
+            @if(Model == null || Model.ReturnUrl == null)
+            {
+                <a asp-area="User" asp-page="/Transactions/Index" class="btn btn-outline-secondary w-50">
+                    <i class="bi bi-x-lg me-1"></i>
+                    <span>Cancel</span>
+                </a>
+            }
+            else{
+                <a href="@Model.ReturnUrl" class="btn btn-outline-secondary w-50">
+                    <i class="bi bi-x-lg me-1"></i>
+                    <span>Cancel</span>
+                </a>
+            }           
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeCurrencyInput(document.getElementById('textAmount'));
+    });
+</script>

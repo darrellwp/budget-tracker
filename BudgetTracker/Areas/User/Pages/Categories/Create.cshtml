@@ -1,0 +1,12 @@
+﻿@page
+@model BudgetTracker.Areas.User.Pages.Categories.CreateModel
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="card w-fit-content mx-auto">
+    <div class="card-body">
+        <h4 class="mb-4">Create new category</h4>
+        <partial name="_CategoryForm" model="@Model.Category" />
+    </div>
+</div>

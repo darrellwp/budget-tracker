@@ -1,0 +1,12 @@
+﻿@page "{categoryId:Guid}"
+@model BudgetTracker.Areas.User.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div class="card w-fit-content mx-auto">
+    <div class="card-body">
+        <h4 class="mb-4">Edit category - @Model.Category.Name</h4>
+        <partial name="_CategoryForm" model="@Model.Category" />
+    </div>
+</div>

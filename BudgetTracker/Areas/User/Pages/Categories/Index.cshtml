@@ -1,0 +1,42 @@
+﻿@page
+@using BudgetTracker.Settings
+@using Microsoft.Extensions.Options
+@inject IOptions<ApplicationSettings> appSettings
+@model BudgetTracker.Areas.User.Pages.Categories.IndexModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <h4 class="mb-0">Category List</h4>
+    <span>
+        <i id="popover-subscription" class="bi bi-info-circle" data-bs-toggle="popover" data-bs-content="Need more categories?"></i>
+        <span>Total @Model.Categories.Count() / @appSettings.Value.MaxCategories</span>
+    </span>
+</div>
+
+@if (Model.Categories.Count() < appSettings.Value.MaxCategories)
+{
+    <a asp-area="User" asp-page="/Categories/Create" class="btn btn-outline-primary w-100 mb-4">
+        <i class="bi bi-plus-lg"></i>
+        <span>Add Category</span>
+    </a>
+}
+
+<div class="list-group">
+    @foreach (var category in Model.Categories)
+    {
+        <partial name="_CategoryList" model="@category" />
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const popoverElement = document.getElementById('popover-subscription');
+
+        new bootstrap.Popover(popoverElement, {
+            content: '<span>Need more categories? <a href="@(Url.Page("/Promo", new { area = "Subscriptions" }))">Upgrade now</a></span>',
+            html: true
+        });
+    })
+</script>

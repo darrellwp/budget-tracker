@@ -1,0 +1,14 @@
+﻿@page
+@model BudgetTracker.Areas.User.Pages.Transactions.EditModel
+@{
+    ViewData["Title"] = "Edit Transaction";
+}
+
+<div class="card w-fit-content mx-auto">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h4 class="mb-4">Edit Transaction</h4>
+        </div>     
+        <partial name="_TransactionForm" model="@Model.Transaction" />
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@model CategoryViewModel
+
+<!--Wrapper needed for since form will not accept scoped css-->
+<div id="category-form-wrapper">
+    <form id="category-form" method="post">
+        <div class="row gy-4">
+            <div class="col-12 col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Name" type="text" class="form-control" placeholder="Category" />
+                    <label asp-for="Name">Category</label>
+                    <span asp-validation-for="Name" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-floating">
+                    <input asp-for="MonthlyLimitDisplay" type="text" id="textMonthlyLimit" class="form-control" placeholder="Monthly Limit" />
+                    <label asp-for="MonthlyLimitDisplay">Monthly Limit</label>
+                    <span asp-validation-for="MonthlyLimitDisplay" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <textarea asp-for="Description" class="form-control field-sizing-content" style="min-height: 100px" placeholder="Description"></textarea>
+                    <label asp-for="Description">Description</label>
+                    <span asp-validation-for="Description" class="invalid-feedback"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <label asp-for="Icon" class="form-label text-body-secondary">Icon</label>
+                <input asp-for="Icon" type="hidden" name="Icon" id="hidden-icon-value" />
+                <div id="icon-options" class="d-grid gap-3"></div>
+            </div>
+        </div>
+        <div class="d-flex gap-4 mt-5">
+            @if (Model == null)
+            {
+                <button type="submit" class="btn btn-outline-primary w-50">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    <span>Create</span>
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-outline-primary w-50">
+                    <i class="bi bi-floppy me-1"></i>
+                    <span>Save</span>
+                </button>
+            }
+            <a asp-area="User" asp-page="/Categories/Index" class="btn btn-outline-secondary w-50">
+                <i class="bi bi-x-lg me-1"></i>
+                <span>Cancel</span>
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currencyInput = document.getElementById('textMonthlyLimit');
+        const iconListElement = document.getElementById('icon-options');
+
+        // Set the currency input for monthly limit
+        initializeCurrencyInput(currencyInput);
+
+        // Set the icon list to select from
+        validIconList.forEach((icon) => {
+            const container = document.createElement('div');
+            const input = document.createElement('input');
+            const label = document.createElement('label');
+
+            input.id = `check-${icon}`;
+            input.type = 'checkbox';
+            input.className = 'btn-check check-icon';
+            input.value = icon;
+            input.onchange = function() { setIcon(this) };
+            input.checked = document.querySelector('[name="Icon"]').value == input.value;
+
+            label.setAttribute('for', input.id);
+            label.className = 'btn btn-outline-primary fs-4';
+            label.innerHTML = `<i class="bi bi-${icon}"></i>`;
+
+            container.append(input);
+            container.append(label);
+            iconListElement.append(container);
+        });
+    });
+
+    const setIcon = (iconElement) => {
+        const iconListElement = document.getElementById('icon-options');
+        const iconValueElement = document.getElementById('hidden-icon-value');
+
+        if(iconElement.checked){
+            // Clear all checks
+            iconListElement.querySelectorAll('.check-icon').forEach((check) => check.checked = check == iconElement);
+            iconValueElement.value = iconElement.value;
+        }
+        else{
+            iconValueElement.value = '';
+        }
+    }
+</script>

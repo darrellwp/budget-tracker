@@ -1,0 +1,98 @@
+﻿@page
+@model BudgetTracker.Areas.User.Pages.Transactions.IndexModel
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <h4 class="mb-0">Transaction List</h4>
+    <a asp-area="User" asp-page="/Transactions/Create" class="btn btn-outline-primary">
+        <i class="bi bi-plus-lg"></i>
+        <span>Add Transaction</span>
+    </a>
+</div>
+
+<div id="table-container"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () =>{
+        const { pageNumber, pageSize, startDate, endDate } = getStateFromQuery();
+        loadTransactions(pageNumber, pageSize, startDate, endDate, false);
+    });
+
+    window.addEventListener('popstate', function(e){
+        const { pageNumber, pageSize, startDate, endDate } = e.state ?? getStateFromQuery();
+        loadTransactions(pageNumber, pageSize, startDate, endDate, false);
+    });
+
+    function getStateFromQuery(){
+        const params = new URLSearchParams(window.location.search);
+
+        return {
+            pageNumber: parseInt(params.get('pageNumber') || 1),
+            pageSize: parseInt(params.get('pageSize') || 10),
+            startDate: params.get('startDate') || null,
+            endDate: params.get('endDate') || null
+        }
+    }
+
+    function showApplyButton(){
+        const button = document.getElementById('buttonApplyDates');
+        button.classList.remove('disabled', 'opacity-0');
+    }
+
+    async function handleRemove(event){
+        event.preventDefault();
+
+        const response = await fetch(event.target.action, {
+            headers:{
+                'RequestVerificationToken' : event.target.querySelector('[name="__RequestVerificationToken"]').value
+            },
+            method: 'POST'
+        })
+
+        if(response.ok){
+            const { pageNumber, pageSize, startDate, endDate } = getStateFromQuery();
+            loadTransactions(pageNumber, pageSize, startDate, endDate, false);
+            showToast('Transaction was removed successfully');
+        }
+        else{
+            showToast('There was an issue removing that transaction');
+        }
+    }
+
+    function loadTransactions(pageNumber, pageSize, startDate, endDate, addState = true){
+        const queryObject = {
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        // Clean up the query parmas
+        Object.keys(queryObject).forEach((key) => {
+            if(queryObject[key] == null || queryObject[key] == ''){
+                delete queryObject[key];
+            }
+        })
+
+        const searchParams = new URLSearchParams(queryObject);
+
+        fetch(`?handler=Transactions&${searchParams.toString()}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then((data) => {
+                document.getElementById('table-container').innerHTML = data;
+            });
+
+            const url = `?${searchParams.toString()}`;
+
+            if(addState){
+                history.pushState(queryObject, "", url);
+            }
+    }
+</script>

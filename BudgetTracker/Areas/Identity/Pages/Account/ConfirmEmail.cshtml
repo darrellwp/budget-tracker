@@ -1,0 +1,26 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<button id="btn-toast" type="button" class="btn btn-primary">Test</button>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttonTrigger = document.getElementById('btn-toast');
+        const pageToast = document.getElementById('toast-page');
+
+    let myToast = bootstrap.Toast.getOrCreateInstance(pageToast);
+
+    buttonTrigger.addEventListener('click', () => {
+        myToast.show();
+    })
+    })
+
+
+</script>

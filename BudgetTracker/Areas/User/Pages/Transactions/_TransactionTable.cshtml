@@ -1,0 +1,147 @@
+﻿@using BudgetTracker.Models.Enumerations
+@model TransactionUserListDto
+
+@{
+    int firstPagnationIndex = Math.Clamp((Model.PageNumber == Model.MaxPage ? Model.MaxPage - 2 : Model.PageNumber - 1), 1, Model.MaxPage);
+    int lastPagnationIndex = Math.Clamp((Model.PageNumber == 1 ? 3 : Model.PageNumber + 1), 1, Model.MaxPage);
+    string startDate = Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "";
+    string endDate = Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : "";
+    decimal total = @Model.Transactions.Sum(x => x.TransactionType == TransactionType.Income ? x.Amount : -x.Amount);
+    string returnQuery = Context.Request.QueryString.HasValue ? Context.Request.QueryString.Value.Replace("handler=Transactions&", string.Empty) : "";
+}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="d-flex gap-1 align-items-center">
+        <label class="form-label mb-0">Show:</label>
+        <select class="form-select" asp-for="PageSize" onchange="loadTransactions(@Model.PageNumber, this.value, '@startDate', '@endDate');" style="width:fit-content">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+    <div class="d-flex gap-1 align-items-center">
+        <button 
+            id="buttonApplyDates" 
+            type="button" 
+            class="btn btn-primary disabled opacity-0" 
+                onclick="loadTransactions(@Model.PageNumber, @Model.PageSize, document.getElementById('textStartDate').value, document.getElementById('textEndDate').value);">
+            Apply
+        </button>
+        <input id="textStartDate" type="date" class="form-control" asp-for="StartDate" onchange="showApplyButton();" />
+        <span>-</span>
+        <input id="textEndDate" type="date" class="form-control" asp-for="EndDate" onchange="showApplyButton();" />
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Transaction</th>
+            <th>From</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>           
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Transactions.Any())
+        {
+            <tr>
+                <td colspan="6" class="text-center">No Transactions Found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var transaction in Model.Transactions.OrderByDescending(x => x.DateOccurred))
+            {
+                <tr>
+                    <td>
+                        <form method="post" 
+                            asp-page-handler="Remove" 
+                            asp-route-transactionId="@transaction.TransactionId"
+                            class="w-fit-content mx-auto"
+                            onsubmit="handleRemove(event, this);">
+                            <button type="submit" class="text-danger p-0 m-0 border-0 bg-transparent mx-auto">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <a 
+                        asp-area="User" 
+                        asp-page="/Transactions/Edit" 
+                        asp-route-returnUrl="@(Url.Page("/Transactions/Index", new { area = "User" }) + returnQuery)"
+                        asp-route-transactionId="@transaction.TransactionId">
+                        @transaction.Description
+                        </a>
+                    </td>                        
+                    <td>@transaction.PlaceOfPurchase</td>
+                    @if (transaction.TransactionType == TransactionType.Income)
+                    {
+                        <td class="text-primary">
+                            $@transaction.Amount.ToString("N2")
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-danger">
+                            $@("-" + transaction.Amount.ToString("N2"))
+                        </td>
+                    }  
+                    <td>@transaction.Category</td>
+                    <td>@transaction.DateOccurred.ToString("MMMM dd, yyyy")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+    <ul class="pagination">
+        @if (Model.PageNumber == 1)
+        {
+            <li class="page-item disabled">
+                <button type="button" class="page-link" tabindex="-1">Prev</button>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <button type="button" class="page-link" onclick="loadTransactions(@(Model.PageNumber - 1), @Model.PageSize, '@startDate', '@endDate');">Prev</button>
+            </li>
+        }
+
+        @for (int i = firstPagnationIndex; i <= lastPagnationIndex; i++)
+        {
+            if (i == Model.PageNumber)
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link active">@i</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link" onclick="loadTransactions(@i, @Model.PageSize, '@startDate', '@endDate');">@i</button>
+                </li>
+            }
+        }
+
+        @if (Model.PageNumber == Model.MaxPage)
+        {
+            <li class="page-item disabled">
+                <button type="button" class="page-link" tabindex="-1">Next</button>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <button type="button" class="page-link" onclick="loadTransactions(@(Model.PageNumber + 1), @Model.PageSize, '@startDate', '@endDate');">Next</button>
+            </li>
+        }
+
+    </ul>
+    <span>Total Displayed: <span class="@(total >= 0 ? "text-primary" : "text-danger")">$@total</span></span>
+</div>

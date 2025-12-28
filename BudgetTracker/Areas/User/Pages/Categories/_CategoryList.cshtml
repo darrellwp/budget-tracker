@@ -1,0 +1,43 @@
+﻿@model CategoryUserListDto
+
+<div class="list-group-item py-3">
+    <div class="d-flex justify-content-between align-items-start">
+        <h5><i class="bi bi-@(Model.Icon ?? "question-circle") me-1"></i> @Model.Name</h5>
+        <small class="text-body-secondary">Updated @Model.LastModifiedDays day(s) ago</small>
+    </div>
+    <div class="d-flex gap-3 justify-content-between align-items-end">
+        <div>
+            @if(Model.MonthlyLimit == null)
+            {
+                <span class="d-block">Unlimited</span>
+            }
+            else
+            {
+                <span class="d-block @(string.IsNullOrWhiteSpace(Model.Description) ? "" : "mb-2")">$@(Model.MonthlyLimit % 1 == 0 ? Math.Round(Model.MonthlyLimit.Value) : Model.MonthlyLimit) per month</span>
+            }
+            <small class="text-body-secondary">@Model.Description</small>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                Options
+            </button>
+            <ul class="dropdown-menu">
+                 <li>
+                    <a asp-area="User" asp-page="/Categories/Edit" asp-route-categoryId="@Model.CategoryId" class="dropdown-item">
+                        <i class="bi bi-pencil"></i>
+                        <span>Edit</span>
+                    </a>
+                 </li>
+                 <li>
+                     <form method="post" asp-page-handler="RemoveCategory" asp-route-categoryId="@Model.CategoryId">
+                        <button type="submit" class="dropdown-item">
+                            <i class="bi bi-trash"></i>
+                            <span>Remove</span>
+                        </button>
+                    </form>
+                 </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
