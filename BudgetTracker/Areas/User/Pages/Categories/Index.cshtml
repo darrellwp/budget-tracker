@@ -7,12 +7,14 @@
     ViewData["Title"] = "Categories";
 }
 
-<div class="d-flex justify-content-between align-items-start mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Category List</h4>
-    <span>
-        <i id="popover-subscription" class="bi bi-info-circle" data-bs-toggle="popover" data-bs-content="Need more categories?"></i>
-        <span>Total @Model.Categories.Count() / @appSettings.Value.MaxCategories</span>
-    </span>
+    <div>
+        <span>
+            <i id="popover-subscription" class="bi bi-info-circle" data-bs-toggle="popover" data-bs-content="Need more categories?"></i>
+            <span>Total @Model.Categories.Count() / @appSettings.Value.MaxCategories</span>
+        </span>
+    </div>
 </div>
 
 @if (Model.Categories.Count() < appSettings.Value.MaxCategories)
@@ -24,7 +26,7 @@
 }
 
 <div class="list-group">
-    @foreach (var category in Model.Categories)
+    @foreach (var category in Model.Categories.OrderBy(x => x.Name))
     {
         <partial name="_CategoryList" model="@category" />
     }

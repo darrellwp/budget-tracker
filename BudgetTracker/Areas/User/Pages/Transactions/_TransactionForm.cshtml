@@ -1,6 +1,11 @@
 ﻿@model TransactionViewModel
 @using BudgetTracker.Models.Enumerations
 
+@{
+    var initialClass = Model.TransactionType == TransactionType.Income ? "d-none" : "";
+    var placeHolder = Model.TransactionType == TransactionType.Income ? "Income from" : "Purchase for";
+}
+
 <div id="transaction-form-wrapper">
     <form id="transaction-form" method="post">
         <div class="row gy-4">
@@ -14,12 +19,12 @@
             </div>
             <div class="col-12">
                 <div class="form-floating">
-                    <input asp-for="Description" type="text" id="textDescription" class="form-control" placeholder="Transaction for..." autocomplete="off" />
-                    <label asp-for="Description">Transaction for...</label>
+                    <input asp-for="Description" type="text" id="textDescription" class="form-control" placeholder="" autocomplete="off" />
+                    <label asp-for="Description">@placeHolder</label>
                     <span asp-validation-for="Description" class="invalid-feedback"></span>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 @(initialClass)">
                 <div class="form-floating">
                     <input asp-for="PlaceOfPurchase" type="text" id="textPlaceOfPurchase" class="form-control" placeholder="Place of purchase" list="purchase-location-list" autocomplete="off" />
                     <label asp-for="PlaceOfPurchase">Place of purchase</label>
@@ -36,10 +41,10 @@
                     </datalist>
                 }
             </div>
-            <div class="col-12">
+            <div class="col-12 @(initialClass)">
                 <div class="form-floating">
                     <select asp-for="CategoryId" asp-items="Model.CategoryOptions" class="form-select">
-                        <option value="">N/A</option>
+                        <option value="">Uncategorized</option>
                     </select>
                     <label asp-for="CategoryId">Category</label>
                     <span asp-validation-for="CategoryId" class="invalid-feedback"></span>
@@ -95,5 +100,35 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         initializeCurrencyInput(document.getElementById('textAmount'));
+
+        //Handler for the category display based on type
+        [...document.querySelectorAll('[name="TransactionType"]')].forEach((radio) => {
+            const categorySelect = document.querySelector('[name="CategoryId"]');
+            const placeOfPurchaseInput = document.querySelector('[name="PlaceOfPurchase"]');
+            const descriptionInput = document.querySelector('[name="Description"]');
+            const descriptionLabel = document.querySelector('label[for="Description"]');
+
+            radio.addEventListener('change',function(){
+                categorySelect.value = '';
+                placeOfPurchaseInput.value = '';
+
+                if(this.value == 'Income'){
+                    categorySelect.disabled = true;
+                    descriptionInput.setAttribute('placeholder', 'Income from');
+                    categorySelect.closest('.col-12').classList.add('d-none');
+                    placeOfPurchaseInput.disabled = true;
+                    placeOfPurchaseInput.closest('.col-12').classList.add('d-none');
+                }
+                else{
+                    categorySelect.disabled = false;
+                    descriptionInput.setAttribute('placeholder', 'Purchase for');
+                    categorySelect.closest('.col-12').classList.remove('d-none');
+                    placeOfPurchaseInput.disabled = false;
+                    placeOfPurchaseInput.closest('.col-12').classList.remove('d-none');
+                }
+
+                descriptionLabel.textContent = descriptionInput.getAttribute('placeholder');
+            });
+        });
     });
 </script>

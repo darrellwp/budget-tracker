@@ -1,5 +1,9 @@
 ﻿namespace BudgetTracker.Data.Entities;
 
+/// <summary>
+/// Category of spending for the user
+/// Expenses can be grouped for data display and contains budgeting information
+/// </summary>
 public class Category
 {
     public Guid CategoryId { get; set; }

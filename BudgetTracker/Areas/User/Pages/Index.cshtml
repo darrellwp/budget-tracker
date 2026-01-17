@@ -6,48 +6,47 @@
 
 <div class="d-flex flex-column gap-4 gy-4">
 
-    <div class="d-flex">
-        <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary active">YTD</button>
-            <button type="button" class="btn btn-outline-primary">Y</button>
-            <button type="button" class="btn btn-outline-primary">M</button>
+    <div class="d-flex mt-3">
+        <div class="btn-group" aria-label="Toggles the view of the charts">
+            <input type="radio" class="btn-check" name="chart-view" id="buttonAll" autocomplete="off" onchange="getChartData(this.value)" value="all" />
+            <label class="btn btn-outline-primary" for="buttonAll">All</label>
+            <input type="radio" class="btn-check" name="chart-view" id="buttonYear" autocomplete="off" onchange="getChartData(this.value)" value="year" />
+            <label class="btn btn-outline-primary" for="buttonYear">Y</label>
+            <input type="radio" class="btn-check" name="chart-view" id="buttonYearToDate" autocomplete="off" onchange="getChartData(this.value)" value="ytd" checked />
+            <label class="btn btn-outline-primary" for="buttonYearToDate">YTD</label>
         </div>
     </div>
 
     <div class="row gy-4 gx-4">
-        <div class="col-12 col-lg-7">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4>Total Remaining</h4>
-                        <span>$1,934.00</span>
+                        <h4>Balance</h4>
+                        <span id="spanBalanceTotal">$0.00</span>
                     </div>
-                    <div class="position-relative w-100" style="padding-top:50%">
-                        <div id="growth-chart" class="position-absolute w-100 h-100" style="top:0; left:0"></div>
+                    <div class="position-relative w-100" style="padding-top:35%">
+                        <div id="balance-chart" class="position-absolute w-100 h-100 top-0 start-0"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-5">
-            <div class="d-flex flex-column gap-4 h-100">
-                <div class="card flex-grow-1">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h4>Total Income</h4>
-                            <span>$32,204.23</span>
-                            
-                        </div>
-                        
-                        
+        <div class="col-12 col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Spending by Category</h4>
+                    <div class="position-relative w-100" style="padding-top:40%">
+                        <div id="category-line-chart" class="position-absolute w-100 h-100 top-0 start-0"></div>
                     </div>
                 </div>
-                <div class="card  flex-grow-1">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h4>Total Spending</h4>
-                            <span>$30,234.23</span>
-                        </div>
-
+            </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-4">
+            <div class="card h-100"> 
+                <div class="card-body">
+                    <h4>Total by Category</h4>
+                    <div class="position-relative w-100 h-100" style="padding-top:40%">
+                        <div id="category-pie-chart" class="position-absolute w-100 h-100 top-0 start-0 bottom-0 end-0"></div>
                     </div>
                 </div>
             </div>
@@ -55,85 +54,6 @@
     </div>
 </div>
 
-<div class="list-group">
-    <div class="list-group-item p-3">
-        <div class="d-flex align-items-center gap-3">
-            <div class="rounded-circle bg-dark-subtle position-relative shadow" style="height:3.5rem;aspect-ratio:1">
-                <label class="top-50 start-50 position-absolute translate-middle"><i class="bi bi-currency-bitcoin fs-3"></i></label>
-            </div>
-            <span class="fs-4">Crypto</span>
-            <div class="ms-auto">
-                <span class="text-primary">$500</span>
-                <span>/ $1000</span>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const chartElement = document.getElementById('growth-chart');
-        const chart = echarts.init(chartElement, 'dark');
-
-
-        let options = {
-            backgroundColor: 'transparent',
-            color: ['#44db76'],
-            grid:{
-                top: 10,
-                bottom: 10,
-                left: 10,
-                right: 10
-            },
-            xAxis:{
-                type: 'category',
-                boundaryGap: false,
-                data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jan', 'Feb'],
-                splitLine: {
-                    show: false,
-                },
-                axisLine:{
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                    color: '#44db76',
-                },
-            },
-            yAxis: {
-                type: 'value',
-                axisTick: {
-                    show: false
-                },
-                axisLine:{
-                    show: false
-                },
-                axisLabel:{
-                    color: '#44db76',
-                    formatter: (value, index, extra) => {
-                        return `\$${value}`;
-                    }
-                },
-                axisLine: {
-                    show: false
-                }
-            },
-            series: [
-                {
-                    data: [50, 200, 300, 34, 23, 32, 42, 11, 22, 33, 44, 22],
-                    type: 'line',
-                    areaStyle: {}
-                }
-            ]
-        }
-
-        chart.setOption(options);
-
-            window.addEventListener('resize', () => {
-                chart.resize();
-            })
-    });
-</script>
+@section Scripts{
+    <script type="text/javascript" src="~/js/User/Index.js"></script>
+}

@@ -1,0 +1,4 @@
+﻿.loader{
+    background-color:var(--bs-card-bg);
+    z-index:2;
+}

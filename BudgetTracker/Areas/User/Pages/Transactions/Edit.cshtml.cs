@@ -17,7 +17,7 @@ public class EditModel(IUserService userService) : PageModel
     [BindProperty]
     public TransactionViewModel Transaction { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync(Guid transactionId, string? returnUrl = null)
+    public async Task<IActionResult> OnGetAsync(Guid transactionId)
     {
         TransactionModifyDto? transaction = await _userService.GetUserTransactionAsync(transactionId, User.GetUserId());
 
@@ -27,7 +27,9 @@ public class EditModel(IUserService userService) : PageModel
         }
 
         Transaction = transaction.ToViewModel();
-        Transaction.ReturnUrl = returnUrl;
+        Transaction.ReturnUrl = TempData["ReturnUrl"] as string;
+
+        TempData.Keep("ReturnUrl");
 
         // Populate the options for the view model
         await PopulateTransactionOptions();
@@ -41,7 +43,7 @@ public class EditModel(IUserService userService) : PageModel
     /// <param name="transactionId"></param>
     /// <param name="returnUrl"></param>
     /// <returns></returns>
-    public async Task<IActionResult> OnPostAsync(Guid transactionId, string? returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(Guid transactionId)
     {
         if (Transaction == null || !ModelState.IsValid)
         {
@@ -59,9 +61,11 @@ public class EditModel(IUserService userService) : PageModel
         TempData["ToastNotification"] = $"The category was successfully updated.";
 
         // Just in case they have query parameters set
-        if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+        var returnUrl = TempData["ReturnUrl"] as string;
+
+        if (!string.IsNullOrWhiteSpace(returnUrl))
         {
-            return Redirect(returnUrl);
+            return LocalRedirect(returnUrl);
         }
 
         return RedirectToPage("/Transactions/Index", new { area = "User" });

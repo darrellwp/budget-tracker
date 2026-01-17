@@ -63,10 +63,10 @@
 
     function loadTransactions(pageNumber, pageSize, startDate, endDate, addState = true){
         const queryObject = {
-            pageNumber: pageNumber,
-            pageSize: pageSize,
-            startDate: startDate,
-            endDate: endDate
+            pageNumber: encodeURIComponent(pageNumber),
+            pageSize: encodeURIComponent(pageSize),
+            startDate: encodeURIComponent(startDate),
+            endDate: encodeURIComponent(endDate)
         };
 
         // Clean up the query parmas
@@ -88,10 +88,11 @@
             .then((data) => {
                 document.getElementById('table-container').innerHTML = data;
             });
-
-            const url = `?${searchParams.toString()}`;
-
+   
             if(addState){
+                const url = `?${searchParams.toString()}`;
+                
+                // Push the state to the browser
                 history.pushState(queryObject, "", url);
             }
     }

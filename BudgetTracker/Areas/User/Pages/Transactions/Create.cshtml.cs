@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace BudgetTracker.Areas.User.Pages.Transactions;
 
@@ -34,8 +35,11 @@ public class CreateModel(IUserService userService) : PageModel
         Transaction = new TransactionViewModel
         {
             DateOccurred = DateOnly.FromDateTime(DateTime.Now),
-            TransactionType = TransactionType.Expense
+            TransactionType = TransactionType.Expense,
+            ReturnUrl = TempData["ReturnUrl"] as string
         };
+
+        TempData.Keep("ReturnUrl");
 
         // Populate the options
         await PopulateTransactionOptions();
@@ -61,8 +65,17 @@ public class CreateModel(IUserService userService) : PageModel
 
         if (result)
         {
+            var returnUrl = TempData["ReturnUrl"] as string;
+
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+            { 
+                return LocalRedirect(returnUrl);
+            }
+
             return RedirectToPage("/Transactions/Index", new { area = "User" });
         }
+
+        TempData.Keep("ReturnUrl");
 
         // Rebind if there was a failure (should not occur unless bad input and no client validation)
         await PopulateTransactionOptions();

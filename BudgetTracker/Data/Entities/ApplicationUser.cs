@@ -2,6 +2,9 @@
 
 namespace BudgetTracker.Data.Entities;
 
+/// <summary>
+/// Extends the default IdentityUser to include additional properties
+/// </summary>
 public class ApplicationUser : IdentityUser<Guid>
 {
     public string? FirstName { get; set; }

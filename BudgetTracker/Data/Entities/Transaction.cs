@@ -2,6 +2,10 @@
 
 namespace BudgetTracker.Data.Entities;
 
+/// <summary>
+/// Transaction for a user
+/// This includes incomes and expenses
+/// </summary>
 public class Transaction
 {
     public Guid TransactionId { get; set; }

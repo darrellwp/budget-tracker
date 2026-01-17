@@ -3,6 +3,10 @@ using System.Diagnostics;
 
 namespace BudgetTracker.Middleware;
 
+/// <summary>
+/// Logs all of the HTTP request for the server
+/// </summary>
+/// <param name="dbContext"></param>
 public class HttpRequestLogMiddleware(IAppDbContext dbContext) : IMiddleware
 {
     private readonly IAppDbContext _dbContext = dbContext;

@@ -23,6 +23,15 @@ public class IndexModel(IUserService userService) : PageModel
         // Gets the user transaction list
         TransactionUserListDto transactions = await _userService.GetUserTransactionsByPageAsync(User.GetUserId(), filters);
 
+        // TempData return URL if this is hit
+        TempData["ReturnUrl"] = Url.Page("/Transactions/Index", new { 
+            area = "User",
+            pageNumber = filters.PageNumber,
+            pageSize = filters.PageSize,          
+            startDate = filters.StartDate, 
+            endDate = filters.EndDate 
+        });
+
         return Partial("_TransactionTable", transactions);
     }
 

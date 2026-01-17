@@ -22,6 +22,7 @@ public class TransactionViewModel
 
     [Display(Name = "Place of purchase")]
     [MaxLength(100, ErrorMessage = ValidationMessages.MaxLength)]
+    [RequireNullIfValue(nameof(TransactionType), TransactionType.Income, ErrorMessage = "Place of purchase must be empty for income transactions")]
     public string? PlaceOfPurchase { get; set; }
 
     [Display(Name = "Type")]
@@ -34,6 +35,7 @@ public class TransactionViewModel
     public DateOnly? DateOccurred { get; set; }
 
     [Display(Name = "Category")]
+    [RequireNullIfValue(nameof(TransactionType), TransactionType.Income, ErrorMessage = "Category must be empty for income transactions")]
     public Guid? CategoryId { get; set; }
 
     [Display(Name = "Amount")]

@@ -7,7 +7,6 @@
     string startDate = Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "";
     string endDate = Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : "";
     decimal total = @Model.Transactions.Sum(x => x.TransactionType == TransactionType.Income ? x.Amount : -x.Amount);
-    string returnQuery = Context.Request.QueryString.HasValue ? Context.Request.QueryString.Value.Replace("handler=Transactions&", string.Empty) : "";
 }
 
 <div class="d-flex align-items-center justify-content-between mb-3">
@@ -72,7 +71,7 @@
                         <a 
                         asp-area="User" 
                         asp-page="/Transactions/Edit" 
-                        asp-route-returnUrl="@(Url.Page("/Transactions/Index", new { area = "User" }) + returnQuery)"
+                        asp-route-returnUrl="@(Url.Page("/Transactions/Index", new { area = "User" }))"
                         asp-route-transactionId="@transaction.TransactionId">
                         @transaction.Description
                         </a>

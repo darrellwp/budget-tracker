@@ -18,13 +18,13 @@ var connectionString = builder.Configuration.GetConnectionString("BudgetTrackerC
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.SECTION_NAME));
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection(SmtpSettings.SECTION_NAME));
 
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 // Add the database context
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
-
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add the UserIdentity default
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
@@ -61,6 +61,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var app = builder.Build();
 

@@ -1,5 +1,9 @@
 ﻿namespace BudgetTracker.Models.Constants;
 
+/// <summary>
+/// Reusable set of validation messages
+/// This also helps to keep the messages consistent
+/// </summary>
 public static class ValidationMessages
 {
     public const string Required = "{0} is required.";
