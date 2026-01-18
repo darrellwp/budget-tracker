@@ -1,11 +1,7 @@
 ﻿using BudgetTracker.Data.Entities;
-using BudgetTracker.Extensions;
-using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Enumerations;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BudgetTracker.Data.Repositories;
 
@@ -28,12 +24,12 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
 
     public Task<DateOnly> GetUserFirstTransactionDateAsync(Guid userId)
     {
-       return _context.Transactions
-            .AsNoTracking()
-            .Where(x => x.UserId == userId)
-            .Select(x => x.DateOccurred)
-            .DefaultIfEmpty()
-            .MinAsync();
+        return _context.Transactions
+             .AsNoTracking()
+             .Where(x => x.UserId == userId)
+             .Select(x => x.DateOccurred)
+             .DefaultIfEmpty()
+             .MinAsync();
     }
 
     public async Task<IEnumerable<string>> GetUserLocationHistoryAsync(Guid userId)
@@ -51,12 +47,12 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         IQueryable<Transaction> query = _context.Transactions
             .Where(x => x.UserId == userId);
 
-        if(startDate != null)
+        if (startDate != null)
         {
             query = query.Where(x => x.DateOccurred >= startDate);
         }
 
-        if(endDate != null)
+        if (endDate != null)
         {
             query = query.Where(x => x.DateOccurred <= endDate);
         }
@@ -81,7 +77,7 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
             query = query.Where(x => x.DateOccurred <= filters.EndDate);
         }
 
-        return await query.Skip((filters.PageNumber - 1) * filters.PageSize)        
+        return await query.Skip((filters.PageNumber - 1) * filters.PageSize)
             .Take(filters.PageSize)
             .ToListAsync();
     }
@@ -91,7 +87,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
             .AsNoTracking()
             .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate)
-            .GroupBy(x => new {
+            .GroupBy(x => new
+            {
                 Year = x.DateOccurred.Year,
                 Month = x.DateOccurred.Month
             })
@@ -114,7 +111,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
             .AsNoTracking()
             .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate)
-            .GroupBy(x => new {
+            .GroupBy(x => new
+            {
                 Year = x.DateOccurred.Year,
                 Month = x.DateOccurred.Month,
                 Week = EF.Functions.DateDiffWeek(startDate, x.DateOccurred)
@@ -139,7 +137,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
             .AsNoTracking()
             .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate)
-            .GroupBy(x => new {
+            .GroupBy(x => new
+            {
                 Year = x.DateOccurred.Year
             })
             .Select(g => new GroupedTransactionsSumDto()
@@ -158,7 +157,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
            .AsNoTracking()
            .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate && x.TransactionType != TransactionType.Income)
-           .GroupBy(x => new {
+           .GroupBy(x => new
+           {
                Year = x.DateOccurred.Year,
                Month = x.DateOccurred.Month,
                Category = x.Category != null ? x.Category.Name : "Uncategorized"
@@ -180,7 +180,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
            .AsNoTracking()
            .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate && x.TransactionType != TransactionType.Income)
-           .GroupBy(x => new {
+           .GroupBy(x => new
+           {
                Year = x.DateOccurred.Year,
                Month = x.DateOccurred.Month,
                Week = EF.Functions.DateDiffWeek(startDate, x.DateOccurred),
@@ -205,7 +206,8 @@ public class TransactionRepository(IAppDbContext context, IBaseRepository<Transa
         return await _context.Transactions
            .AsNoTracking()
            .Where(x => x.UserId == userId && x.DateOccurred >= startDate && x.DateOccurred <= endDate && x.TransactionType != TransactionType.Income)
-           .GroupBy(x => new {
+           .GroupBy(x => new
+           {
                Year = x.DateOccurred.Year,
                Category = x.Category != null ? x.Category.Name : "Uncategorized"
            })

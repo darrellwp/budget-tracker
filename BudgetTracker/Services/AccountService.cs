@@ -1,7 +1,6 @@
 ﻿using BudgetTracker.Data.Entities;
 using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
-using BudgetTracker.Models.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

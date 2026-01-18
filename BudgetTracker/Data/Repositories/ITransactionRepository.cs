@@ -118,7 +118,7 @@ public interface ITransactionRepository
     /// </summary>
     /// <param name="untilDate">Cut off date</param>
     /// <returns>Summed transactions</returns>
-    Task<decimal> GetUserTransactionSumUntilDateAsync(Guid userId, DateOnly untilDate)
+    Task<decimal> GetUserTransactionSumUntilDateAsync(Guid userId, DateOnly untilDate);
 
     /// <summary>
     /// Removes the given transaction record from the database

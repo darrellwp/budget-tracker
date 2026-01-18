@@ -1,5 +1,4 @@
-﻿using BudgetTracker.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Data.Repositories;
 
@@ -8,7 +7,7 @@ namespace BudgetTracker.Data.Repositories;
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
 /// <param name="context"></param>
-public class BaseRepository<TEntity>(IAppDbContext context): IBaseRepository<TEntity> where TEntity : class
+public class BaseRepository<TEntity>(IAppDbContext context) : IBaseRepository<TEntity> where TEntity : class
 {
     private readonly DbSet<TEntity> _set = context.Set<TEntity>();
 

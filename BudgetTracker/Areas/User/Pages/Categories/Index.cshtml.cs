@@ -1,4 +1,5 @@
 using BudgetTracker.Extensions;
+using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -41,10 +42,10 @@ public class IndexModel(IUserService userService) : PageModel
         // Attempt to remove the category
         bool removeSuccess = await _userService.RemoveCategoryAsync(categoryId, User.GetUserId());
 
-        // If a failure occurs, stay on the page
+        // If a failure occurs, notify and rediect to same page
         if (!removeSuccess)
         {
-            return Page();
+            TempData[TempDataKeys.ToastNotification] = "There was an issue removing the category. Please try again.";
         }
 
         return RedirectToPage();

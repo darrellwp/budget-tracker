@@ -1,5 +1,4 @@
 ﻿using BudgetTracker.Data.Entities;
-using BudgetTracker.Models;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Maps;
 using BudgetTracker.Models.ViewModels;
@@ -61,11 +60,11 @@ public class RegisterModel(
 
                     // Send a confirmation email
                     // TODO : Update the email to be more verbose later, look into templates
-                    if(callbackUrl != null)
+                    if (callbackUrl != null)
                     {
                         await _smptService.SendEmailAsync(Registration.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                    }                   
+                    }
                 }
             }
 

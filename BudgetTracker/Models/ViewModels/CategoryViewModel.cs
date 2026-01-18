@@ -33,12 +33,14 @@ public class CategoryViewModel
     public string? MonthlyLimitDisplay { get; set; }
 
     [BindNever]
-    public decimal? MonthlyLimit { 
-        get{
-            if(decimal.TryParse(MonthlyLimitDisplay, NumberStyles.Currency, CultureInfo.CurrentCulture, out var result))
+    public decimal? MonthlyLimit
+    {
+        get
+        {
+            if (decimal.TryParse(MonthlyLimitDisplay, NumberStyles.Currency, CultureInfo.CurrentCulture, out var result))
             {
                 // Just set to null by default if 0 is entered
-                if(result == 0)
+                if (result == 0)
                 {
                     return null;
                 }

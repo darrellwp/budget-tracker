@@ -14,7 +14,7 @@ public interface IAccountService
     /// </summary>
     /// <param name="newUser"></param>
     /// <returns>Result of user creation</returns>
-    Task<(IdentityResult,ApplicationUser?)> RegisterNewUserAsync(RegistrationDto newUser);
+    Task<(IdentityResult, ApplicationUser?)> RegisterNewUserAsync(RegistrationDto newUser);
 
     /// <summary>
     /// Logs in a user with the given credentials
@@ -22,7 +22,7 @@ public interface IAccountService
     /// <param name="user"></param>
     /// <returns>Result of login</returns>
     Task<SignInResult> LoginUserAsync(LoginDto user);
-    
+
     /// <summary>
     /// Determines if a user is registered with the given email
     /// </summary>

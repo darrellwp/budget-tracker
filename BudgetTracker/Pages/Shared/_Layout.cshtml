@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using BudgetTracker.Models.Constants
+<!DOCTYPE html>
 <html data-bs-theme="dark" lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,7 +31,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const toast = '@TempData["ToastNotification"]';
+            const toast = '@TempData[TempDataKeys.ToastNotification]';
 
             if(toast != null && toast != ''){
                 showToast(toast);

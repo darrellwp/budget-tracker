@@ -6,7 +6,6 @@ using BudgetTracker.Middleware;
 using BudgetTracker.Services;
 using BudgetTracker.Settings;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +26,8 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options =>
 });
 
 // Add the UserIdentity default
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
     options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequiredLength = 10;
     options.Password.RequireLowercase = false;

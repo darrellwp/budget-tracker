@@ -1,4 +1,5 @@
 using BudgetTracker.Extensions;
+using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Maps;
 using BudgetTracker.Models.ViewModels;
@@ -29,7 +30,7 @@ public class CreateModel(IUserService service) : PageModel
 
         await _service.AddCategoryAsync(categoryDto, userId);
 
-        TempData["ToastNotification"] = "Your category was created successfully";
+        TempData[TempDataKeys.ToastNotification] = "Your category was created successfully";
 
         return RedirectToPage("/Categories/Index", new { area = "User" });
     }

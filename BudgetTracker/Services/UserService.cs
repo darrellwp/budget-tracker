@@ -28,7 +28,7 @@ public class UserService(
     {
         int userCategories = await _categoryRepository.GetCategoryCountByUserIdAsync(userId);
 
-        if(userCategories >= _appSettings.MaxCategories)
+        if (userCategories >= _appSettings.MaxCategories)
         {
             return false;
         }
@@ -47,13 +47,13 @@ public class UserService(
     }
 
     public async Task<bool> AddTransactionAsync(TransactionModifyDto transactionDto, Guid userId)
-    {   
+    {
         // Test if the category belongs to the user; otherwise return out. Consider it malicious
-        if(transactionDto.CategoryId != null)
+        if (transactionDto.CategoryId != null)
         {
             Category? category = await _categoryRepository.GetCategoryByIdAsync(transactionDto.CategoryId.Value);
 
-            if(category == null || category.UserId != userId)
+            if (category == null || category.UserId != userId)
             {
                 return false;
             }
@@ -74,7 +74,7 @@ public class UserService(
         Category? category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
 
         // Returns null if the user attempts to get a category that isn't theirs
-        if(category == null || category.UserId != userId)
+        if (category == null || category.UserId != userId)
         {
             return null;
         }
@@ -84,7 +84,7 @@ public class UserService(
 
     public async Task<IEnumerable<CategoryUserListDto>> GetUserCategoryListAsync(Guid userId)
     {
-        IEnumerable<CategoryUserListDto>? categories =  await _cache.GetOrCreateAsync(CacheKeys.UserCategories(userId), async entry =>
+        IEnumerable<CategoryUserListDto>? categories = await _cache.GetOrCreateAsync(CacheKeys.UserCategories(userId), async entry =>
         {
             IEnumerable<Category> categoryEntities = await _categoryRepository.GetCategoriesByUserIdAsync(userId);
 
@@ -173,7 +173,7 @@ public class UserService(
         Category? category = await _categoryRepository.GetCategoryByIdAsync(categoryDto.CategoryId);
 
         // Validate it's the correct user
-        if(category == null || category.UserId != userId)
+        if (category == null || category.UserId != userId)
         {
             return false;
         }
@@ -197,7 +197,7 @@ public class UserService(
     {
         Transaction? transaction = await _transactionRepository.GetTransactionByIdAsync(transactionDto.TransactionId);
 
-        if(transaction == null || transaction.UserId != userId)
+        if (transaction == null || transaction.UserId != userId)
         {
             return false;
         }

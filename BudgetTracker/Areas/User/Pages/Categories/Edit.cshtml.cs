@@ -1,4 +1,5 @@
 using BudgetTracker.Extensions;
+using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Maps;
 using BudgetTracker.Models.ViewModels;
@@ -21,7 +22,7 @@ public class EditModel(IUserService service) : PageModel
     {
         CategoryModifyDto? category = await _service.GetUserCategoryAsync(categoryId, User.GetUserId());
 
-        if(category == null)
+        if (category == null)
         {
             return NotFound();
         }
@@ -31,7 +32,7 @@ public class EditModel(IUserService service) : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(Guid categoryId)
+    public async Task<IActionResult> OnPostAsync()
     {
         if (Category == null || !ModelState.IsValid)
         {
@@ -46,7 +47,7 @@ public class EditModel(IUserService service) : PageModel
         await _service.UpdateCategoryAsync(categoryDto, userId);
 
         // Sets temp data for notifications
-        TempData["ToastNotification"] = $"The category was successfully updated.";
+        TempData[TempDataKeys.ToastNotification] = $"The category was successfully updated.";
 
         return RedirectToPage("/Categories/Index", new { area = "User" });
     }

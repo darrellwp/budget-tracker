@@ -1,12 +1,6 @@
-﻿
-using BudgetTracker.Data;
-using BudgetTracker.Data.Repositories;
-using BudgetTracker.Models.Constants;
+﻿using BudgetTracker.Data.Repositories;
 using BudgetTracker.Models.DTOs;
-using BudgetTracker.Models.Enumerations;
-using BudgetTracker.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace BudgetTracker.Services;
 
@@ -33,7 +27,7 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
         if (start != null)
         {
             var daysDifference = end.DayNumber - start.Value.DayNumber;
-            IEnumerable<GroupedTransactionsSumDto > balanceSums;
+            IEnumerable<GroupedTransactionsSumDto> balanceSums;
             IEnumerable<GroupedTransactionsCategoryDto> categorySums;
 
             // Determine the grouping based on the date range
@@ -57,13 +51,13 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
             }
 
             // Gets the initial value for the balance chart
-
+            decimal startingValue = await _transactionRepository.GetUserTransactionSumUntilDateAsync(userId, start.Value);
 
             // List of data points - utilize forloop for building balance
             List<BalanceChartDataDto> balanceDataPoints = [];
 
             // Generate the balance data points ready for echarts
-            foreach(var (value, index) in balanceSums.Select((value, index) => (value,index)))
+            foreach (var (value, index) in balanceSums.Select((value, index) => (value, index)))
             {
                 var previous = index == 0 ? startingValue : balanceDataPoints[^1].Amount;
 
@@ -84,7 +78,7 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
             var categoryList = categorySums.Select(x => x.Category).Distinct();
 
             // Group by the time periods again to build out the category data points
-            foreach (var groupedData in categorySums.GroupBy(x => new {x.Year, x.Month, x.Week }))
+            foreach (var groupedData in categorySums.GroupBy(x => new { x.Year, x.Month, x.Week }))
             {
                 List<CategoryChartDataGroupDto> categorySetData = [];
 

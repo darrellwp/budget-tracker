@@ -1,5 +1,5 @@
-﻿using BudgetTracker.Models.DTOs;
-using BudgetTracker.Data.Entities;
+﻿using BudgetTracker.Data.Entities;
+using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.ViewModels;
 using System.Globalization;
 
@@ -47,7 +47,7 @@ public static class TransactionMaps
             Amount = viewModel.Amount,
             TransactionType = viewModel.TransactionType,
             CategoryId = viewModel.CategoryId,
-            Description = viewModel.Description,
+            Description = viewModel.Description!,
             DateOccurred = viewModel.DateOccurred ?? default,
             PlaceOfPurchase = viewModel.PlaceOfPurchase
         };

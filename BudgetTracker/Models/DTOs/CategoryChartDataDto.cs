@@ -6,5 +6,5 @@
 public class CategoryChartDataDto
 {
     public string Label { get; set; } = string.Empty;
-    public IEnumerable<CategoryChartDataGroupDto> Amounts { get; set; }
+    public IEnumerable<CategoryChartDataGroupDto> Amounts { get; set; } = null!;
 }
