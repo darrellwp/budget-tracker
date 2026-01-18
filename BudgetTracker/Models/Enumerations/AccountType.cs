@@ -6,7 +6,7 @@
 public enum AccountType
 {
     Checking = 1,
-    Savings = 2, 
+    Savings = 2,
     Investment = 3,
     Other = 4
 }

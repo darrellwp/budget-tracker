@@ -1,5 +1,5 @@
-using BudgetTracker.Data.Entities;
 using BudgetTracker.Extensions;
+using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Maps;
 using BudgetTracker.Models.ViewModels;
@@ -21,15 +21,15 @@ public class EditModel(IUserService userService) : PageModel
     {
         TransactionModifyDto? transaction = await _userService.GetUserTransactionAsync(transactionId, User.GetUserId());
 
-        if(transaction == null)
+        if (transaction == null)
         {
             return NotFound();
         }
 
         Transaction = transaction.ToViewModel();
-        Transaction.ReturnUrl = TempData["ReturnUrl"] as string;
+        Transaction.ReturnUrl = TempData[TempDataKeys.ReturnUrl] as string;
 
-        TempData.Keep("ReturnUrl");
+        TempData.Keep(TempDataKeys.ReturnUrl);
 
         // Populate the options for the view model
         await PopulateTransactionOptions();
@@ -41,9 +41,8 @@ public class EditModel(IUserService userService) : PageModel
     /// Updates the currently opened transaction
     /// </summary>
     /// <param name="transactionId"></param>
-    /// <param name="returnUrl"></param>
     /// <returns></returns>
-    public async Task<IActionResult> OnPostAsync(Guid transactionId)
+    public async Task<IActionResult> OnPostAsync()
     {
         if (Transaction == null || !ModelState.IsValid)
         {
@@ -58,10 +57,10 @@ public class EditModel(IUserService userService) : PageModel
         await _userService.UpdateTransactionAsync(transactionDto, userId);
 
         // Sets temp data for notifications
-        TempData["ToastNotification"] = $"The category was successfully updated.";
+        TempData[TempDataKeys.ToastNotification] = $"The category was successfully updated.";
 
         // Just in case they have query parameters set
-        var returnUrl = TempData["ReturnUrl"] as string;
+        var returnUrl = TempData[TempDataKeys.ReturnUrl] as string;
 
         if (!string.IsNullOrWhiteSpace(returnUrl))
         {

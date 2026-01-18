@@ -5,7 +5,7 @@
 /// This is an output of a grouped by query in EF
 /// </summary>
 public class GroupedTransactionsCategoryDto
-{   
+{
     public int Year { get; set; }
     public int? Month { get; set; }
     public int? Week { get; set; }

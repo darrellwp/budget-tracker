@@ -27,7 +27,7 @@ public class SmtpService(IOptions<SmtpSettings> smtpSettings) : ISmtpService
 
                     smtp.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
                     smtp.PickupDirectoryLocation = _smtpSettings.PickupDirectory;
-                }       
+                }
             }
             else
             {

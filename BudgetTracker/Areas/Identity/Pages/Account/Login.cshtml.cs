@@ -1,9 +1,7 @@
-﻿using BudgetTracker.Models;
-using BudgetTracker.Models.DTOs;
+﻿using BudgetTracker.Models.DTOs;
 using BudgetTracker.Models.Maps;
 using BudgetTracker.Models.ViewModels;
 using BudgetTracker.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -30,7 +28,7 @@ public class LoginModel(IAccountService accountService) : PageModel
 
     public IActionResult OnGet(string? returnUrl = null)
     {
-        if(User.Identity != null && User.Identity.IsAuthenticated)
+        if (User.Identity != null && User.Identity.IsAuthenticated)
         {
             return RedirectToPage("/Index", new { area = "User" });
         }
@@ -60,7 +58,7 @@ public class LoginModel(IAccountService accountService) : PageModel
             {
                 // TODO : Redirect to dashboard once created
                 return RedirectToPage("/Index", new { area = "User" });
-            }        
+            }
         }
 
         // Set generic error

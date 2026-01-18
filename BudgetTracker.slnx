@@ -3,5 +3,6 @@
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
   </Folder>
+  <Project Path="BudgetTracker.Tests/BudgetTracker.Tests.csproj" Id="d183de1d-0782-473f-9423-b39a0270e08f" />
   <Project Path="BudgetTracker/BudgetTracker.csproj" />
 </Solution>

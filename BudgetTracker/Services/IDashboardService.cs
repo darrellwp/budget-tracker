@@ -1,5 +1,5 @@
-﻿using BudgetTracker.Models.DTOs;
-using BudgetTracker.Data.Entities;
+﻿using BudgetTracker.Data.Entities;
+using BudgetTracker.Models.DTOs;
 
 namespace BudgetTracker.Services;
 

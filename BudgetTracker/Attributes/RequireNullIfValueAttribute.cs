@@ -14,13 +14,13 @@ public class RequireNullIfValueAttribute(string propertyName, object value) : Va
     public string PropertyName { get; set; } = propertyName;
     public object Value { get; set; } = value;
 
-    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         PropertyInfo property = validationContext.ObjectType.GetProperty(PropertyName) ?? throw new ArgumentNullException($"{nameof(PropertyName)} must be a valid property on {validationContext.ObjectType.Name}");
 
         var propertyValue = property.GetValue(validationContext.ObjectInstance);
 
-        if(propertyValue != null && propertyValue.Equals(Value) && value != null)
+        if (propertyValue != null && propertyValue.Equals(Value) && value != null)
         {
             return new ValidationResult(ErrorMessage);
         }

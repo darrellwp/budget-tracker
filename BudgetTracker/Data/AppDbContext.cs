@@ -1,6 +1,5 @@
 ﻿using BudgetTracker.Converters;
 using BudgetTracker.Data.Entities;
-using BudgetTracker.Models.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +13,8 @@ namespace BudgetTracker.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options), IAppDbContext
 {
     // DbSets
-    public DbSet<Category> Categories { get; set;  }
-    public DbSet<Transaction> Transactions { get; set;  }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
     public DbSet<HttpRequestLog> HttpRequestLogs { get; set; }
 
     // Expose base methods via interface
@@ -69,7 +68,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         builder.Entity<Category>(entity =>
         {
-            entity.ToTable(table => {
+            entity.ToTable(table =>
+            {
                 table.IsTemporal(temp =>
                 {
                     temp.HasPeriodStart("ValidFrom");

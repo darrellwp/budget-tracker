@@ -1,5 +1,6 @@
 using BudgetTracker.Data.Entities;
 using BudgetTracker.Extensions;
+using BudgetTracker.Models.Constants;
 using BudgetTracker.Models.DTOs;
 using BudgetTracker.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -24,12 +25,13 @@ public class IndexModel(IUserService userService) : PageModel
         TransactionUserListDto transactions = await _userService.GetUserTransactionsByPageAsync(User.GetUserId(), filters);
 
         // TempData return URL if this is hit
-        TempData["ReturnUrl"] = Url.Page("/Transactions/Index", new { 
+        TempData[TempDataKeys.ReturnUrl] = Url.Page("/Transactions/Index", new
+        {
             area = "User",
             pageNumber = filters.PageNumber,
-            pageSize = filters.PageSize,          
-            startDate = filters.StartDate, 
-            endDate = filters.EndDate 
+            pageSize = filters.PageSize,
+            startDate = filters.StartDate,
+            endDate = filters.EndDate
         });
 
         return Partial("_TransactionTable", transactions);
@@ -39,7 +41,6 @@ public class IndexModel(IUserService userService) : PageModel
     /// Removes the transaction from the database if the user is the correct owner
     /// </summary>
     /// <param name="transactionId"><see cref="Transaction.TransactionId"/></param>
-    /// <param name="returnUrl">Return url to keep filters</param>
     /// <returns></returns>
     public async Task OnPostRemoveAsync(Guid transactionId)
     {

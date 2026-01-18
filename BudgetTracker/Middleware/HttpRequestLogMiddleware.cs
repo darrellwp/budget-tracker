@@ -17,7 +17,7 @@ public class HttpRequestLogMiddleware(IAppDbContext dbContext) : IMiddleware
         await next(context);
         stopWatch.Stop();
 
-        if(!context.Request.Path.StartsWithSegments("/lib"))
+        if (!context.Request.Path.StartsWithSegments("/lib"))
         {
             // Build the full request URL
             UriBuilder uri = new()

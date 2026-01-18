@@ -1,6 +1,5 @@
-﻿using BudgetTracker.Models.Enumerations;
+﻿using BudgetTracker.Data.Entities;
 using System.Security.Claims;
-using BudgetTracker.Data.Entities;
 
 namespace BudgetTracker.Extensions;
 
